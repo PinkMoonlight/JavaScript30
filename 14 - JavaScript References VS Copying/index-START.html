@@ -8,13 +8,29 @@
 
   <script>
     // start with strings, numbers and booleans
+    let age = 100;
+    let age2 = age;
+    console.log(age, age2); //100 / 100
+    age = 200;
+    console.log(age,age2); // 200 / 100
+
+    let name = 'wes';
+    let name2 = name;
+    console.log(name, name2); // wes / wes
+    name = 'wesley';
+    console.log(name, name2); // wesley / wes
 
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
+    const team = players;
+
+    console.log(players, team); // both same
 
     // You might think we can just do something like this:
+    team[3] ='lux'; //will change original (reference) Array
+    console.log(players, team) //both same and both chagned
 
     // however what happens when we update that array?
 
@@ -25,12 +41,18 @@
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
     // So, how do we fix this? We take a copy instead!
+    const team2 = players.slice(); //retruns entire array when nothing passed in */
+
 
     // one way
 
     // or create a new array and concat the old one in
-
+    const team3 = [].concat(players);
     // or use the new ES6 Spread
+    const team4 = [...players];
+    console.log(team4);
+
+    const team5 = Array.from(players); //original won't change when updated */
 
     // now when we update it, the original one isn't changed
 
@@ -43,12 +65,32 @@
     };
 
     // and think we make a copy:
+    const captain = person;
+    captain.number = 99; //will update the original 
 
     // how do we take a copy instead?
+    const capt2 = Object.assign({}, person, {number: 99});
 
     // We will hopefully soon see the object ...spread
+    const capt3 = {...person} //like es6 array spread
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+
+    const wes = {
+      name: 'wes',
+      age: 100,
+      social: {
+        twitter: '@wesbos',
+        facegook: 'wesbos.developer'
+      }
+    }
+
+    console.log(wes);
+
+    const dev = Object.assign({}, wes); //makes a copy
+    //but only of the first level not the inner levels.
+
+    const dev2 = JSON.parse(JSON.stringify(wes)); //not recommended, shakes references */
 
   </script>
 

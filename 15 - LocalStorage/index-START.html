@@ -22,13 +22,84 @@
     <form class="add-items">
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
+      <br><br>
+      <input type="button" name="checkAll" value="Check All">
+      <input type="button" name="uncheck" value="Uncheck All">
+      <input type="button" name="clear" value="Clear All">
     </form>
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const clearAll = document.querySelector('[name="clear"]');
+  const uncheck = document.querySelector('[name="uncheck"]');
+  const check = document.querySelector('[name="checkAll"]');
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+
+function addItem(e) {
+  e.preventDefault(); 
+  const text = (this.querySelector('[name=item]')).value;
+  const item = {
+    text: text,
+    done: false
+  }
+  items.push(item);
+  populateList(items,itemsList);
+  localStorage.setItem('items', JSON.stringify(items)); 
+  this.reset();
+}
+
+function populateList (plates = [], platesList) {
+  platesList.innerHTML = plates.map((plate, i) => {
+    return `
+      <li>
+        <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+        <label for="item${i}"> ${plate.text}</label>
+      </li>
+    `;
+  }).join('');
+}
+
+function toggleDone(e) {
+  if (!e.target.matches('input')) return; //skip this unless input
+  const el = e.target;
+  const index = el.dataset.index;
+  items[index].done = !items[index].done;
+  localStorage.setItem('items', JSON.stringify(items)); 
+  populateList(items, itemsList); 
+}
+
+function clearItems () {
+  localStorage.removeItem(items); //localStorage.clear(items) risk;
+  items.length = 0;
+  itemsList.innerHTML = `<li>Loading Tapas...</li>`;
+
+}
+
+function checkAll (e, plates, platesList) {
+  if (!e.target.matches('input')) return; //skip this unless input
+  const el = e.target;
+  const index = el.dataset.index;
+  if  (!items[index].done) {
+    items[index.done]
+  }
+}
+
+function uncheckAll(e) {
+
+}
+
+
+addItems.addEventListener('submit', addItem);
+itemsList.addEventListener('click', toggleDone);
+clearAll.addEventListener('click', clearItems);
+check.addEventListener('click', (function(e) {
+return checkAll(e, items, itemsList);
+}));
+uncheck.addEventListener('click', uncheckAll);
+populateList(items, itemsList); //populates on page load
+
 
 </script>
 
