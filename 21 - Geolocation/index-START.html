@@ -59,6 +59,22 @@
     /*Compass: https://thenounproject.com/search/?q=compass&i=592352*/
   </style>
   <script>
+
+    const arrow = document.querySelector('.arrow');
+    const speed = document.querySelector('.speed-value');
+
+    navigator.geolocation.watchPosition((data) => {
+      console.log(data);
+      speed.textContent = data.coords.speed; 
+      //could do a Math.round
+      arrow.style.transform =`rotate(${data.coords.heading}deg)`;
+    }, (err) => {
+      console.err(err);
+      alert('HEY! YOU GOTTA ALLOW FOR THIS TO WORK!!')
+    });
+
+    //also useful to look at the lattitude and longitude and use on a map api! 
+
   </script>
 </body>
 </html>
