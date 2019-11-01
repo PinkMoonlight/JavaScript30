@@ -12,6 +12,7 @@
       </div>
     </div>
   </div>
+  <button></button>
 
 <style>
   html {
@@ -42,7 +43,30 @@
 
 <button></button>
 <script>
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+
+function logText(e) {
+  console.log(this.classList.value);
+  //e.stopPropagation(); //stop bubbling (up) or capture (if true);
+};
+
+divs.forEach(div => div.addEventListener('click', logText, {capture: false,  // false is default
+  //once: true // unbinds (will only fire once)
+})); //capture is oppoisite of bubbling up
+
+
+button.addEventListener('click', function() {
+  console.log('Click!!!');
+}, {once: true});
+
 
 </script>
 </body>
 </html>
+
+
+
+
+
+
